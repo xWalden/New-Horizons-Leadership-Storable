@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Horizons Leadership Program | Storable</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1B2A5B;
+    --navy-dark: #111d42;
+    --teal: #00B4C5;
+    --teal-light: #e6f9fb;
+    --bg: #f5f5f7;
+    --white: #ffffff;
+    --text: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #86868b;
+    --border: rgba(0,0,0,0.08);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.05);
+    --shadow-hover: 0 2px 8px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav img { height: 28px; }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a {
+    text-decoration: none; color: var(--text-secondary);
+    font-size: 13px; font-weight: 500; letter-spacing: 0.01em;
+    transition: color 0.2s ease;
+  }
+  nav a:hover { color: var(--navy); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    background: linear-gradient(170deg, var(--navy-dark) 0%, var(--navy) 50%, #1f3572 100%);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -40%; right: -20%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,180,197,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -30%; left: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,180,197,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 720px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,180,197,0.15);
+    border: 1px solid rgba(0,180,197,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .hero h1 span { color: var(--teal); }
+  .hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    max-width: 520px;
+    margin: 0 auto 36px;
+    line-height: 1.6;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--teal);
+    color: var(--navy-dark);
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-size: 15px; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+  .hero-cta:hover { background: #00c9db; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,180,197,0.3); }
+  .hero-cta:active { transform: scale(0.97); }
+  .hero-cta svg { width: 16px; height: 16px; }
+
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    animation: bounce 2s ease infinite;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 100px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--navy);
+  }
+  .section-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  /* WHY SECTION */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .why-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+    border: 1px solid var(--border);
+  }
+  .why-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .why-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+  .why-icon.navy { background: rgba(27,42,91,0.08); }
+  .why-icon.teal { background: rgba(0,180,197,0.1); }
+  .why-card h3 {
+    font-size: 17px; font-weight: 600;
+    margin-bottom: 8px; color: var(--navy);
+  }
+  .why-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* JOURNEY TIMELINE */
+  .journey-section { background: var(--white); padding: 100px 24px; }
+  .journey-inner { max-width: 1080px; margin: 0 auto; }
+  .timeline { position: relative; margin-top: 48px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 28px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--teal), var(--navy));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 72px;
+    padding-bottom: 48px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
+  .timeline-dot {
+    position: absolute; left: 16px; top: 4px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+  .timeline-dot-inner {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--teal);
+    transition: all 0.3s ease;
+  }
+  .timeline-item:hover .timeline-dot { border-color: var(--navy); transform: scale(1.15); }
+  .timeline-item:hover .timeline-dot-inner { background: var(--navy); }
+  .timeline-phase {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-size: 20px; font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .timeline-meta {
+    font-size: 13px; color: var(--text-tertiary);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .timeline-meta span { display: flex; align-items: center; gap: 4px; }
+  .timeline-desc {
+    font-size: 15px; color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 580px;
+  }
+
+  /* PROGRAM IMAGE */
+  .program-image-section {
+    padding: 80px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .program-image-wrapper {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 24px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .program-image-wrapper:hover { box-shadow: var(--shadow-hover); }
+  .program-image-wrapper img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    display: block;
+  }
+  .program-image-caption {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-tertiary);
+  }
+
+  /* OUTCOMES */
+  .outcomes-section { background: var(--navy); color: var(--white); padding: 100px 24px; }
+  .outcomes-inner { max-width: 1080px; margin: 0 auto; }
+  .outcomes-section .section-label { color: var(--teal); }
+  .outcomes-section .section-title { color: var(--white); }
+  .outcomes-section .section-subtitle { color: rgba(255,255,255,0.6); }
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .outcome-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: all 0.25s ease;
+  }
+  .outcome-card:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(0,180,197,0.4);
+    transform: translateY(-2px);
+  }
+  .outcome-icon { font-size: 28px; margin-bottom: 16px; }
+  .outcome-card h3 {
+    font-size: 16px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .outcome-card p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+
+  /* ACCORDION FAQ */
+  .faq-section { padding: 100px 24px; max-width: 760px; margin: 0 auto; }
+  .accordion-item {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+  .accordion-item:hover { box-shadow: var(--shadow); }
+  .accordion-trigger {
+    width: 100%; border: none; background: none;
+    padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer;
+    font-size: 15px; font-weight: 600;
+    color: var(--navy);
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.2s ease;
+  }
+  .accordion-trigger:hover { background: rgba(0,0,0,0.02); }
+  .accordion-chevron {
+    width: 20px; height: 20px;
+    transition: transform 0.3s ease;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+  .accordion-item.open .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .accordion-body-inner {
+    padding: 0 24px 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 48px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--white);
+  }
+  footer img { height: 24px; margin-bottom: 12px; opacity: 0.6; }
+  footer p { font-size: 13px; color: var(--text-tertiary); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav ul { display: none; }
+    .section { padding: 72px 20px; }
+    .timeline::before { left: 20px; }
+    .timeline-item { padding-left: 56px; }
+    .timeline-dot { left: 8px; }
+    .hero { padding: 100px 20px 72px; }
+  }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 0; size: 8.5in 999in; }
+    body { margin: 0; padding: 0.4in 0.6in; background: #fff; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    nav, .scroll-hint, .hero-cta { display: none !important; }
+    .hero { min-height: auto; padding: 48px 0; }
+    .container, .dashboard, .shell, main { max-width: 100% !important; width: 100% !important; }
+    section, [class*="section"], .header { margin-bottom: 20px !important; }
+    [class*="card"], [class*="Card"] { padding: 18px !important; box-shadow: none !important; border: 1px solid rgba(0,0,0,0.08); }
+    .reveal, .timeline-item { opacity: 1 !important; transform: none !important; }
+    .accordion-body { max-height: none !important; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    button, [role="button"], .interactive-only { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <img src="https://storable-be.glean.com/api/v1/downloadchatfile/a151336ea79746c88d1231ca135d8cd6" alt="Storable">
+  <ul>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#journey">The Journey</a></li>
+    <li><a href="#outcomes">Outcomes</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🚀 2026 Cohort</div>
+    <h1>New Horizons<br><span>Leadership Program</span></h1>
+    <p>A formalized development track for first-time people leaders — built in partnership with FranklinCovey to help you lead with confidence from day one.</p>
+    <a href="#journey" class="hero-cta">
+      Explore the Program
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+    </a>
+  </div>
+  <div class="scroll-hint">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4"/></svg>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section" id="why">
+  <div class="reveal">
+    <div class="section-label">Why This Program</div>
+    <div class="section-title">The leap from IC to leader is real</div>
+    <div class="section-subtitle">Most new managers never get formalized training. New Horizons changes that — giving you the tools, frameworks, and confidence to lead people, not just projects.</div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon navy">🎯</div>
+      <h3>Built for the Transition</h3>
+      <p>Moving from individual contributor to people leader is one of the biggest career shifts you'll make. This program is designed specifically for that moment.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon teal">🤝</div>
+      <h3>Proven Frameworks</h3>
+      <p>Powered by FranklinCovey's research-backed leadership content — trusted by thousands of organizations worldwide to develop effective frontline leaders.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon navy">📈</div>
+      <h3>Measurable Growth</h3>
+      <p>Bookended by 180 and 360 assessments so you can see exactly where you started and how far you've come — with real feedback from your team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey-section" id="journey">
+  <div class="journey-inner">
+    <div class="reveal">
+      <div class="section-label">The Journey</div>
+      <div class="section-title">Your leadership development path</div>
+      <div class="section-subtitle">A multi-month experience blending live workshops, on-demand learning, and assessments — designed to build real capability, not just check a box.</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-phase">Stage 1 — Prep &amp; Diagnostic</div>
+        <div class="timeline-title">180 Leader Skills Assessment</div>
+        <div class="timeline-meta">
+          <span>📋 Self + Manager Assessment</span>
+          <span>⏱ Month 1</span>
+        </div>
+        <div class="timeline-desc">Kick things off with a FranklinCovey Leader Skills Assessment. You'll complete a self-assessment while your manager provides their perspective — giving us a clear baseline to tailor the experience to your needs. <strong>Target launch: early May 2026.*</strong></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-phase">Stage 2 — Core Content</div>
+        <div class="timeline-title">The 6 Critical Practices for Leading a Team</div>
+        <div class="timeline-meta">
+          <span>💻 3 Live Virtual Sessions</span>
+          <span>⏱ 2 Hours Each</span>
+        </div>
+        <div class="timeline-desc">The foundational workshop. Learn how to get work done with and through others — covering mindset shifts, delegation, one-on-ones, feedback, and navigating change as a new leader. Reinforced with on-demand resources and AI coaching tools. <strong>Target start: late May / early June 2026.*</strong></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-phase">Stage 2 — Core Content</div>
+        <div class="timeline-title">Navigating Difficult Conversations</div>
+        <div class="timeline-meta">
+          <span>💻 Live Virtual Workshop</span>
+          <span>⏱ 2 Hours</span>
+        </div>
+        <div class="timeline-desc">A few months in, tackle the conversations that matter most. Learn to de-stress challenging interactions, give direct feedback without damaging trust, and get better results from tough situations. Reinforced with group coaching.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-phase">Stage 2 — Core Content</div>
+        <div class="timeline-title">Coaching</div>
+        <div class="timeline-meta">
+          <span>📱 On-Demand Course</span>
+          <span>⏱ Self-Paced</span>
+        </div>
+        <div class="timeline-desc">Adopt a coaching mindset and learn to give impactful feedback that develops your people. This on-demand course lets you learn at your own pace and apply concepts in real time with your team.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-phase">Stage 3 — Next Level Learning</div>
+        <div class="timeline-title">360 Assessment</div>
+        <div class="timeline-meta">
+          <span>📊 Full Circle Feedback</span>
+          <span>⏱ Program Completion</span>
+        </div>
+        <div class="timeline-desc">Close the loop with a comprehensive 360 assessment — including feedback from your direct reports, peers, and manager. See how far you've come and identify the next horizon in your leadership growth.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM IMAGE -->
+<section class="program-image-section">
+  <div class="reveal">
+    <div class="section-label">Program at a Glance</div>
+    <div class="section-title" style="text-align:center;">The full learning track</div>
+    <div class="section-subtitle" style="margin: 0 auto 40px; text-align:center;">Our partnership with FranklinCovey brings a structured, research-backed approach to developing Storable's frontline leaders.</div>
+  </div>
+  <div class="program-image-wrapper reveal">
+    <img src="https://storable-be.glean.com/api/v1/downloadchatfile/312b5e163ab547218dd12bb57783077f" alt="FranklinCovey Frontline Leaders Learning Track showing the 3-stage program from Prep and Diagnostic through Core Content to Next Level Learning">
+  </div>
+  <div class="program-image-caption reveal">FranklinCovey — Storable Frontline Leaders Track</div>
+</section>
+
+<!-- OUTCOMES -->
+<section class="outcomes-section" id="outcomes">
+  <div class="outcomes-inner">
+    <div class="reveal">
+      <div class="section-label">Outcomes</div>
+      <div class="section-title">What you'll walk away with</div>
+      <div class="section-subtitle">Leaders who complete this program will build the capabilities that matter most in people leadership.</div>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-card reveal">
+        <div class="outcome-icon">🎯</div>
+        <h3>Clear Expectations</h3>
+        <p>Set clear expectations, define team goals, and ensure everyone understands their contribution to achieving results.</p>
+      </div>
+      <div class="outcome-card reveal">
+        <div class="outcome-icon">💬</div>
+        <h3>Feedback Culture</h3>
+        <p>Create an environment where both giving and receiving feedback is the norm — building trust and increasing confidence.</p>
+      </div>
+      <div class="outcome-card reveal">
+        <div class="outcome-icon">🔄</div>
+        <h3>Change Navigation</h3>
+        <p>Lead your team through organizational changes, minimizing disruption and maintaining productivity.</p>
+      </div>
+      <div class="outcome-card reveal">
+        <div class="outcome-icon">🌱</div>
+        <h3>Coaching Mindset</h3>
+        <p>Develop your people through next-level coaching — improving performance and building long-term capability on your team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="reveal">
+    <div class="section-label">Questions</div>
+    <div class="section-title">Frequently asked</div>
+    <div class="section-subtitle">Everything you need to know about the program.</div>
+  </div>
+
+  <div class="accordion-item reveal">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      Who is this program for?
+      <svg class="accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">New Horizons is designed for first-time people leaders — anyone who was promoted from an individual contributor role into a people management position (Manager, Team Lead, or Director) during the 2026 promo cycle.</div>
+    </div>
+  </div>
+
+  <div class="accordion-item reveal">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      How long does the program run?
+      <svg class="accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">The program spans several months, starting with the 180 assessment, moving through the core workshops (6 Critical Practices, Navigating Difficult Conversations, and Coaching), and culminating in a 360 assessment. The pacing is intentional — giving you time to learn, apply, and reinforce between sessions.</div>
+    </div>
+  </div>
+
+  <div class="accordion-item reveal">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      What is the time commitment?
+      <svg class="accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">The live sessions total about 8 hours (three 2-hour sessions for 6 Critical Practices plus a 2-hour Difficult Conversations workshop). The Coaching course is self-paced and on-demand. Assessments take roughly 15–20 minutes each.</div>
+    </div>
+  </div>
+
+  <div class="accordion-item reveal">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      What role does my manager play?
+      <svg class="accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">Your manager is a key partner in this journey. They'll complete the initial 180 manager assessment to help baseline your development, and they'll be encouraged to reinforce and support what you're learning throughout the program. At the end, they'll participate in your 360 feedback as well.</div>
+    </div>
+  </div>
+
+  <div class="accordion-item reveal">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      What is FranklinCovey?
+      <svg class="accordion-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">FranklinCovey is a global leadership development company trusted by thousands of organizations worldwide. Their research-backed frameworks and content — including The 6 Critical Practices, Navigating Difficult Conversations, and Coaching — form the core of our program and are proven to build effective frontline leaders.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="https://storable-be.glean.com/api/v1/downloadchatfile/a151336ea79746c88d1231ca135d8cd6" alt="Storable">
+  <p>New Horizons Leadership Program · Storable L&amp;D · 2026</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .timeline-item').forEach(el => observer.observe(el));
+
+  // Accordion
+  function toggleAccordion(trigger) {
+    const item = trigger.parentElement;
+    const body = item.querySelector('.accordion-body');
+    const isOpen = item.classList.contains('open');
+
+    document.querySelectorAll('.accordion-item.open').forEach(openItem => {
+      openItem.classList.remove('open');
+      openItem.querySelector('.accordion-body').style.maxHeight = '0';
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  }
+</script>
+
+</body>
+</html>
